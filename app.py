@@ -86,7 +86,6 @@ def gen_frame(): #generator function, meaning it runs like over and over again a
     while cap: #maybe equivalent to while true? i mean its just the class instance so idk
         frame = cap.read() #calls class read method
         convert = cv2.imencode('.jpg', frame)[1].tobytes() #sets 'encode' var to a .jpg encoded frame in some fancy byte thing idk its basically encoding the image and yea
-        #cv2.waitKey(cap.FPS_MS)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + convert + b'\r\n') # concate frame one by one and show result, idk whats going on here but it seems to just be like sending a frame with a ton of random stuff that i might need to understand later idk
 
