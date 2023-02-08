@@ -1,5 +1,5 @@
 from flask import Flask, render_template, Response, request #flask imports
-#from robotLibrary import Robot #import custom made robotLib class for abstraction
+from robotLibrary import Robot #import custom made robotLib class for abstraction
 from camera import CameraStream #imports "camerastream" class from 'camera.py' file located in the same dir as this app.py file
 import cv2 #opencv import
 
@@ -7,7 +7,7 @@ import logging #temp
 
 
 app = Flask(__name__) #initialize flask object instance
-#robot = Robot() #initialize robot class instance
+robot = Robot() #initialize robot class instance
 cap = CameraStream().start() #initialize camerastream object instance from other file
 
 #flask run --host=0.0.0.0
@@ -30,7 +30,7 @@ def forward():
     else:
         print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
     print('f')
-    #robot.motorForward(speedL, speedR, timeMS)
+    robot.motorForward(speedL, speedR, timeMS)
     return "<p>forward</p>"
 
 
@@ -44,7 +44,7 @@ def backward():
     else:
         print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
     print('b')
-    #robot.motorBackward(speedL, speedR, timeMS)
+    robot.motorBackward(speedL, speedR, timeMS)
     return "<p>backward</p>"
 
 @app.route("/left", methods = ['GET','POST'])
@@ -57,7 +57,7 @@ def left():
     else:
         print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
     print('l')
-    #robot.motorLeft(speedL, speedR, timeMS)
+    robot.motorLeft(speedL, speedR, timeMS)
     return "<p>left</p>"
 
 @app.route("/right", methods = ['GET','POST'])
@@ -70,7 +70,7 @@ def right():
     else:
         print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
     print('r')
-    #robot.motorRight(speedL, speedR, timeMS)
+    robot.motorRight(speedL, speedR, timeMS)
     return "<p>right</p>"
 
 
