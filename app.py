@@ -2,6 +2,7 @@ from flask import Flask, render_template, Response, request #flask imports
 from robotLibrary import Robot #import custom made robotLib class for abstraction
 from camera import CameraStream #imports "camerastream" class from 'camera.py' file located in the same dir as this app.py file
 import cv2 #opencv import
+import time
 
 import logging #temp
 
@@ -12,38 +13,43 @@ cap = CameraStream().start() #initialize camerastream object instance from other
 
 #flask run --host=0.0.0.0
 
-
-#streaming terminal output temp
-logging.basicConfig(filename='static/logFile.txt', level=logging.DEBUG, filemode = 'w')
-
+#old code, would stream terminal output into logFile
+#logging.basicConfig(filename='static/logFile.txt', level=logging.DEBUG, filemode = 'w')
 
 
-#below is robot-control related endpoints and functions
+
+
+#clear file on server startup
+with open("static/logFile.txt",'w') as file:
+    pass
+
+#below is the file writing/logging function 
+def log(logItem):
+    with open("static/logFile.txt", "at") as logFile: #'at' stands for "append text file"
+        logFile.write(str(logItem))
+
+
+
+
+#below are precise robot control functions
 
 @app.route("/forward", methods = ['GET','POST'])
 def forward():
     speedL = int(request.args.get('speedL', default = 50))
     speedR = int(request.args.get('speedR', default = 64))
     timeMS = int(request.args.get('timeMS', default = 1000))
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        print(request.environ['REMOTE_ADDR'])
-    else:
-        print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
-    print('f')
+
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward")
     robot.motorForward(speedL, speedR, timeMS)
     return "<p>forward</p>"
-
 
 @app.route("/backward", methods = ['GET','POST'])
 def backward():
     speedL = int(request.args.get('speedL', default = 50))
     speedR = int(request.args.get('speedR', default = 66))
     timeMS = int(request.args.get('timeMS', default = 1000))
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        print(request.environ['REMOTE_ADDR'])
-    else:
-        print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
-    print('b')
+
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward")
     robot.motorBackward(speedL, speedR, timeMS)
     return "<p>backward</p>"
 
@@ -51,12 +57,9 @@ def backward():
 def left():
     speedL = int(request.args.get('speedL', default = 50))
     speedR = int(request.args.get('speedR', default = 60))
-    timeMS = int(request.args.get('timeMS', default = 850)) 
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        print(request.environ['REMOTE_ADDR'])
-    else:
-        print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
-    print('l')
+    timeMS = int(request.args.get('timeMS', default = 850))
+
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left")
     robot.motorLeft(speedL, speedR, timeMS)
     return "<p>left</p>"
 
@@ -65,13 +68,45 @@ def right():
     speedL = int(request.args.get('speedL', default = 50))
     speedR = int(request.args.get('speedR', default = 60))
     timeMS = int(request.args.get('timeMS', default = 850))
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-        print(request.environ['REMOTE_ADDR'])
-    else:
-        print(request.environ['HTTP_X_FORWARDED_FOR']) # if behind a proxy
-    print('r')
+
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right")
     robot.motorRight(speedL, speedR, timeMS)
     return "<p>right</p>"
+
+
+
+
+#below are real-time movement functions, for use with wasd
+
+@app.route("/stop", methods = ['GET','POST'])
+def right():
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Stop")
+    robot.motorStop()
+    return "<p>stop</p>"
+
+@app.route("/forwardUndef", methods = ['GET','POST'])
+def right():
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward Undef")
+    robot.motorForwardUndef()
+    return "<p>forwardundef</p>"
+
+@app.route("/backwardUndef", methods = ['GET','POST'])
+def right():
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward Undef")
+    robot.motorBackwardUndef()
+    return "<p>backwardundef</p>"
+
+@app.route("/leftUndef", methods = ['GET','POST'])
+def right():
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left Undef")
+    robot.motorLeftUndef()
+    return "<p>leftundef</p>"
+
+@app.route("/rightUndef", methods = ['GET','POST'])
+def right():
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right Undef")
+    robot.motorRightUndef()
+    return "<p>rightundef</p>"
 
 
 

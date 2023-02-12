@@ -24,7 +24,6 @@ class CameraStream(object): #camerastream class definition
         self.started = True #if not started already, then set started to true
         self.thread = Thread(target=self.update, args=()) #threading stuff that idk tbh it just works but yea cool it outlines stuff for thread i think
         self.thread.start() #starts thread
-        self.framesPassed = 0 
         return self #idk why it returns self but it "simply means that your method returns a reference to the instance object on which it was called" and yea idk it works so cool
 
     def update(self): #alright so this function basically runs in a seperate thread and keeps constantly grabbing a frame from the camera because doing that on one thread is slow
@@ -32,15 +31,12 @@ class CameraStream(object): #camerastream class definition
             (grabbed, frame) = self.stream.read()
             self.read_lock.acquire()
             self.grabbed, self.frame = grabbed, frame
-            #time.sleep(self.FPS) #limits the amount of frames being constantly grabbed from the camera because although its on a seperate thread, it doesnt need to be exhausted (doesnt limit fps but limits amount of work done)
             self.read_lock.release()
 
     def read(self): #runs like every millisecond cause it runs in the generator function in app.py so yea basically updates the frame each time its run
         self.read_lock.acquire() #thread thing again idk maybe hooks function to seperate thread if i had to guess
         frame = self.frame.copy() #IMPORTANT: grabs the frame from the seperate update thread frame stream, not actually reading from camera but grabbing frame from seperate thread of camera readings
         self.read_lock.release() #thread thing again woo maybe end thread idfk
-        self.framesPassed += 1 #debug to see how many frames has passed
-        print (self.framesPassed)
         time.sleep(self.FPS) #limits framerate by limiting the speed at which it grabs new frames from the constant stream of frame readings in the seperate update thread. this is what actually limits the framerate
         return frame #profit (returns frame)
 

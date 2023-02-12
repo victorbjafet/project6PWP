@@ -15,6 +15,8 @@ class Robot():
         kit.motor1.throttle = 0.0
         kit.motor2.throttle = 0.0
 
+    #below methods handle precise, value inputted movement
+
     def motorForward(self, speedL, speedR, timeMS):
         kit.motor1.throttle = speedL / 100
         kit.motor2.throttle = speedR / 100
@@ -38,4 +40,21 @@ class Robot():
         kit.motor2.throttle = (speedR / 100) * -1
         time.sleep(timeMS / 1000)
         self.motorStop()
+    
+    #below methods handle real time, perpetual movement for use with wasd
 
+    def motorForwardUndef(self):
+        kit.motor1.throttle = 0.5
+        kit.motor2.throttle = speedR / 0.64
+    
+    def motorBackwardUndef(self):
+        kit.motor1.throttle = -0.5
+        kit.motor2.throttle = -0.66
+
+    def motorLeftUndef(self):
+        kit.motor1.throttle = -0.5
+        kit.motor2.throttle = 0.6
+
+    def motorRightUndef(self):
+        kit.motor1.throttle = 0.6
+        kit.motor2.throttle = -0.5
