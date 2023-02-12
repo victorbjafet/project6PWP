@@ -20,7 +20,7 @@ cap = CameraStream().start() #initialize camerastream object instance from other
 
 
 #clear file on server startup
-with open("static/logFile.txt",'w') as file:
+with open("static/logFile.txt",'w') as logFile:
     logFile.write("Start of Server Session - " + time.strftime("%H:%M:%S", time.localtime()) + "\n")
 
 #below is the file writing/logging function 
