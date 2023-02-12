@@ -39,7 +39,7 @@ def forward():
     speedR = int(request.args.get('speedR', default = 64))
     timeMS = int(request.args.get('timeMS', default = 1000))
 
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward\n")
     robot.motorForward(speedL, speedR, timeMS)
     return "<p>forward</p>"
 
@@ -49,7 +49,7 @@ def backward():
     speedR = int(request.args.get('speedR', default = 66))
     timeMS = int(request.args.get('timeMS', default = 1000))
 
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward\n")
     robot.motorBackward(speedL, speedR, timeMS)
     return "<p>backward</p>"
 
@@ -59,7 +59,7 @@ def left():
     speedR = int(request.args.get('speedR', default = 60))
     timeMS = int(request.args.get('timeMS', default = 850))
 
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left\n")
     robot.motorLeft(speedL, speedR, timeMS)
     return "<p>left</p>"
 
@@ -69,7 +69,7 @@ def right():
     speedR = int(request.args.get('speedR', default = 60))
     timeMS = int(request.args.get('timeMS', default = 850))
 
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right\n")
     robot.motorRight(speedL, speedR, timeMS)
     return "<p>right</p>"
 
@@ -80,31 +80,31 @@ def right():
 
 @app.route("/stop", methods = ['GET','POST'])
 def stop():
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Stop")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Stop\n")
     robot.motorStop()
     return "<p>stop</p>"
 
 @app.route("/forwardUndef", methods = ['GET','POST'])
 def forwardUndef():
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward Undef")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward Undef\n")
     robot.motorForwardUndef()
     return "<p>forwardundef</p>"
 
 @app.route("/backwardUndef", methods = ['GET','POST'])
 def backwardUndef():
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward Undef")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward Undef\n")
     robot.motorBackwardUndef()
     return "<p>backwardundef</p>"
 
 @app.route("/leftUndef", methods = ['GET','POST'])
 def leftUndef():
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left Undef")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left Undef\n")
     robot.motorLeftUndef()
     return "<p>leftundef</p>"
 
 @app.route("/rightUndef", methods = ['GET','POST'])
 def rightUndef():
-    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right Undef")
+    log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right Undef\n")
     robot.motorRightUndef()
     return "<p>rightundef</p>"
 
