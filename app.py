@@ -79,31 +79,31 @@ def right():
 #below are real-time movement functions, for use with wasd
 
 @app.route("/stop", methods = ['GET','POST'])
-def right():
+def stop():
     log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Stop")
     robot.motorStop()
     return "<p>stop</p>"
 
 @app.route("/forwardUndef", methods = ['GET','POST'])
-def right():
+def forwardUndef():
     log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Forward Undef")
     robot.motorForwardUndef()
     return "<p>forwardundef</p>"
 
 @app.route("/backwardUndef", methods = ['GET','POST'])
-def right():
+def backwardUndef():
     log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Backward Undef")
     robot.motorBackwardUndef()
     return "<p>backwardundef</p>"
 
 @app.route("/leftUndef", methods = ['GET','POST'])
-def right():
+def leftUndef():
     log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Left Undef")
     robot.motorLeftUndef()
     return "<p>leftundef</p>"
 
 @app.route("/rightUndef", methods = ['GET','POST'])
-def right():
+def rightUndef():
     log(str(request.environ['REMOTE_ADDR']) + " - " + time.strftime("%H:%M:%S", time.localtime()) + " | Right Undef")
     robot.motorRightUndef()
     return "<p>rightundef</p>"

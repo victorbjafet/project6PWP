@@ -1,4 +1,4 @@
-from threading import Thread, Lock #native python library to allow threading in python programs
+0from threading import Thread, Lock #native python library to allow threading in python programs
 import cv2 #opencv import due to camera stuff being used
 import time
 
