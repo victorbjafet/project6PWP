@@ -45,7 +45,7 @@ class Robot():
 
     def motorForwardUndef(self):
         kit.motor1.throttle = 0.5
-        kit.motor2.throttle = speedR / 0.64
+        kit.motor2.throttle = 0.64
     
     def motorBackwardUndef(self):
         kit.motor1.throttle = -0.5
