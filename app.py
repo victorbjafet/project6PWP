@@ -35,10 +35,10 @@ try:
 except:
     print("robot not connected")
 
-db = SQLAlchemy(app) #initialize database object instance
-bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db' #connects the sqlalchemy app to the database file
 app.config['SECRET_KEY'] = 'thisisasecretkey' #used for the encryption of the session cookie
+db = SQLAlchemy(app) #initialize database object instance
+bcrypt = Bcrypt(app)
 
 
 
