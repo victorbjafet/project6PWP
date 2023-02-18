@@ -4,7 +4,7 @@
   <head>
     <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8"/></head>
     <!--  Load CSS in Flask with html-->
-    <link rel="stylesheet" href="/static/main.css" />
+    <link rel="stylesheet" href="/static/dashboard.css" />
   </head>
   <div class="body">
     <div class="topL">
@@ -72,7 +72,7 @@
         setInterval(() => {
           console.log(document.getElementById("log"));
           let logFrame = document.getElementById("log");
-          logFrame.contentWindow.location.reload();
+          // logFrame.contentWindow.location.reload();
           
           logFrame.contentWindow.scrollTo( 0, 99999999 );
         }, 1000);
