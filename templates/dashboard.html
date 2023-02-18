@@ -1,0 +1,83 @@
+<!--  how to use css in python_ flask-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <head><meta http-equiv="Content-Type" content="text/plain; charset=utf-8"/></head>
+    <!--  Load CSS in Flask with html-->
+    <link rel="stylesheet" href="/static/main.css" />
+  </head>
+  <div class="body">
+    <div class="topL">
+      <img src="{{ url_for('video_feed') }}">
+    </div>
+
+    <div class="topR">
+    </div>
+
+    <div class="downL">
+      <button onclick="forward()">Forward</button>
+      <script>
+        function forward() {
+          fetch("forward")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+        }
+      </script>
+
+      <button onclick="backward()">Backward</button>
+      <script>
+        function backward() {
+          fetch("backward")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+        }
+      </script>
+
+      <button onclick="right()">Right</button>
+      <script>
+        function right() {
+          fetch("right")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+        }
+      </script>
+
+      <button onclick="left()">Left</button>
+      <script>
+        function left() {
+          fetch("left")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+        }
+      </script>
+
+      <button onclick="funny()">Other</button>
+      <script>
+        function funny() {
+          fetch("forward");
+          fetch("right");
+          fetch("forward");
+          fetch("left")
+            .then((response) => response.json())
+            .then((data) => console.log(data));
+        }
+      </script>
+    </div>
+
+    <div class="downR">
+      <iframe id="log" src="/static/logFile.txt" width="800" height="400" type = "html/text" style="margin-top: 15px;">
+        Not supported
+      </iframe>
+      <script>
+        setInterval(() => {
+          console.log(document.getElementById("log"));
+          let logFrame = document.getElementById("log");
+          logFrame.contentWindow.location.reload();
+          
+          logFrame.contentWindow.scrollTo( 0, 99999999 );
+        }, 1000);
+      </script>
+    </div>
+    <a href="{{url_for('logout')}}">Press here to logout</a>
+  </div>
+</html>

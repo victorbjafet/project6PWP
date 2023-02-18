@@ -1,0 +1,46 @@
+.body {
+    background: white;
+    display: grid;
+    height: 60rem;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 1rem;
+    overflow: auto;
+    }
+   
+.topL {
+    background-color: lightgray;
+    overflow: auto;
+    }
+   
+.topR {
+    background-color: lightgray;
+    overflow: auto;
+    }
+
+.downL{
+  background-color:lightgray;
+  overflow: auto;
+  }
+
+.downR{
+  background-color: lightgray;
+  overflow: auto;
+}
+
+button{
+  background-color: gray;
+  border: black;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 100%;
+  height: 50px;
+  cursor: pointer;
+}
+
+
