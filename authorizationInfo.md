@@ -14,3 +14,12 @@
 ### - when a user submits a login request, the app tries to find the username in the database
 ### - if username matches, then attempts to match the password
 ### - if the passsword is correct, the user get logged in and redirected to the dashboard page
+
+## To View and Delete Contents of the Table:
+### Assumed position is the main project directory (where app.py is contained)
+```
+> sqlite3 instance/database.db
+> .tables
+> SELECT * FROM user;
+> DELETE FROM user WHERE username = 'test';
+```

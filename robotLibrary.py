@@ -43,18 +43,18 @@ class Robot():
     
     #below methods handle real time, perpetual movement for use with wasd
 
-    def motorForwardUndef(self):
+    def motorForwardIndef(self):
         kit.motor1.throttle = 0.5
         kit.motor2.throttle = 0.64
     
-    def motorBackwardUndef(self):
+    def motorBackwardIndef(self):
         kit.motor1.throttle = -0.5
         kit.motor2.throttle = -0.66
 
-    def motorLeftUndef(self):
+    def motorLeftIndef(self):
         kit.motor1.throttle = -0.5
         kit.motor2.throttle = 0.6
 
-    def motorRightUndef(self):
+    def motorRightIndef(self):
         kit.motor1.throttle = 0.6
         kit.motor2.throttle = -0.5

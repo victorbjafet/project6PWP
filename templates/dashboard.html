@@ -7,20 +7,59 @@
     <link rel="stylesheet" href="/static/dashboard.css" />
   </head>
   <div class="body">
+
+    <!-- this div is for the video feed -->
     <div class="topL">
-      <img src="{{ url_for('video_feed') }}">
+      <img src="{{ url_for('video_feed') }}" style="max-width: 95%; max-height: 95%;">
     </div>
 
+    <!-- this div is for the username and the wasd input (user must be focused on the image to do wasd input) -->
     <div class="topR">
+      <!-- get current username -->
+      <h1>Welcome, {{username}}</h1>
+      <img id="wasdInputImage" src="/static/images/wasdElement.png" tabindex="0">
+      <script>
+        let keyPressedDown = false;
+        function checkFocus() { // Check the focus of the element on every animation frame (rercursively)
+			    requestAnimationFrame(checkFocus);
+			    if (document.activeElement === document.getElementById("wasdInputImage")) {
+            
+            document.getElementById("wasdInputImage").addEventListener("keydown", function(event) {
+              if (!keyPressedDown) {
+                keyPressedDown = true;
+                console.log(event.key + " pressed");
+                if (event.key === "w") {
+                  fetch("forwardIndef");
+                } else if (event.key === "s") {
+                  fetch("backwardIndef");
+                } else if (event.key === "a") {
+                  fetch("leftIndef");
+                } else if (event.key === "d") {
+                  fetch("rightIndef");
+                }
+              }
+            });
+
+            document.getElementById("wasdInputImage").addEventListener("keyup", function(event) {
+              if (keyPressedDown) {
+                keyPressedDown = false;
+                console.log(event.key + " released");
+                fetch("stop")
+              }
+            });
+          }
+		    }
+        checkFocus(); // Start checking the focus of the element
+      </script>
     </div>
 
+
+    <!-- this entire div is just the buttons and its pretty intuitive -->
     <div class="downL">
       <button onclick="forward()">Forward</button>
       <script>
         function forward() {
           fetch("forward")
-            .then((response) => response.json())
-            .then((data) => console.log(data));
         }
       </script>
 
@@ -28,17 +67,6 @@
       <script>
         function backward() {
           fetch("backward")
-            .then((response) => response.json())
-            .then((data) => console.log(data));
-        }
-      </script>
-
-      <button onclick="right()">Right</button>
-      <script>
-        function right() {
-          fetch("right")
-            .then((response) => response.json())
-            .then((data) => console.log(data));
         }
       </script>
 
@@ -46,38 +74,68 @@
       <script>
         function left() {
           fetch("left")
-            .then((response) => response.json())
-            .then((data) => console.log(data));
         }
       </script>
 
-      <button onclick="funny()">Other</button>
+      <button onclick="right()">Right</button>
       <script>
-        function funny() {
-          fetch("forward");
-          fetch("right");
-          fetch("forward");
-          fetch("left")
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+        function right() {
+          fetch("right")
+        }
+      </script>
+
+      <button onclick="stop()">Stop</button>
+      <script>
+        function stop() {
+          fetch("stop");
+        }
+      </script>
+
+      <button onclick="forwardIndef()">Forward Indefinitely</button>
+      <script>
+        function forwardIndef() {
+          fetch("forwardIndef");
+        }
+      </script>
+
+      <button onclick="backwardIndef()">Backward Indefinitely</button>
+      <script>
+        function backwardIndef() {
+          fetch("backwardIndef");
+        }
+      </script>
+
+      <button onclick="leftIndef()">Left Indefinitely</button>
+      <script>
+        function leftIndef() {
+          fetch("leftIndef");
+        }
+      </script>
+
+      <button onclick="rightIndef()">Right Indefinitely</button>
+      <script>
+        function rightIndef() {
+          fetch("rightIndef");
         }
       </script>
     </div>
+
 
     <div class="downR">
-      <iframe id="log" src="/static/logFile.txt" width="800" height="400" type = "html/text" style="margin-top: 15px;">
-        Not supported
-      </iframe>
+      <div id="log"></div>
       <script>
-        setInterval(() => {
-          console.log(document.getElementById("log"));
-          let logFrame = document.getElementById("log");
-          logFrame.contentWindow.location.reload();
-          
-          logFrame.contentWindow.scrollTo( 0, 99999999 );
-        }, 1000);
+          var logDiv = document.getElementById('log'); // refers to the div element that was created above the script tag
+          var logEventSource = new EventSource('/log'); // refers to the route that we created in the server
+          logEventSource.onmessage = function(event) { // listens to the message event using the onmessage attribute of the EventSource object
+              var data = event.data.trim(); // trims the data to remove any whitespace
+              if (data !== '') { // checks if the data is not empty
+                logDiv.innerHTML += data + '<br>';
+                var lineList = logDiv.innerHTML.split('<br>'); 
+                logDiv.innerHTML = lineList.slice(-24).join('<br>');
+              }
+          };
       </script>
     </div>
-    <a href="{{url_for('logout')}}">Press here to logout</a>
+    <a href="{{url_for('logout')}}"><h3>Press here to logout</h3></a>
   </div>
 </html>

@@ -1,0 +1,14 @@
+documentation stuff:
+finish all the documentation for all the newly added stuff (pain, mostly in the html files and a bit in dashboard.css and app.py)
+add to readme.md
+improve the authorization explanation markdown
+
+testing:
+make backup of the entire thing before commiting to git
+deploy to raspberry pi after git upload to test how well it works
+
+misc:
+DO THE RED ARROW ALREADY IDIOT LOL
+programming plan (why)
+
+
