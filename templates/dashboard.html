@@ -7,26 +7,34 @@
     <link rel="stylesheet" href="/static/dashboard.css" />
   </head>
   <div class="body">
+    <script>
+      var arrowAngle = 0; //initializes the angle of the arrow to 0 in a global variable to be used in the js rotate functions
+    </script>
 
-    <!-- this div is for the video feed -->
+
+    <!-- this div is for the video feed and arrow compass -->
     <div class="topL">
-      <img src="{{ url_for('video_feed') }}" style="max-width: 95%; max-height: 95%;">
+      <img id="arrowCompass" src="/static/images/arrowCompass.png" style="transition: transform 0.25s ease; transform-origin: 45px 45px; position: absolute; max-width: 50px; max-height: 50px; padding-left: 20px; padding-top: 20px;"> <!-- transition gives the smooth effect, rotation origin is center of image, so margins (20px) + half the size of the resized image (resized 50px, half 25px), position absolute to not push away the div, padding and max size to pad and shrink the image for positioning purposes --> 
+      <div style="display: flex; align-items: center; justify-content: center; top: 0; left: 0; height: 100%; width: 100%;"> <!-- flexbox to center the video feed, but the arrow is outside so that it can remain where it is with absolute positioning, also takes up entirety of parent div to not mess with flex positioning-->
+        <img src="{{ url_for('video_feed') }}" style="max-width: 95%; max-height: 95%;"> <!-- video feed, max stuff set to ensure no overflow and also give some nice margins (using flex) -->
+      </div>
     </div>
+
 
     <!-- this div is for the username and the wasd input (user must be focused on the image to do wasd input) -->
     <div class="topR">
-      <!-- get current username -->
+      <!-- display greeting message with current username -->
       <h1>Welcome, {{username}}</h1>
+      <!-- wasd input image, tabindex allows for it to be focused on -->
       <img id="wasdInputImage" src="/static/images/wasdElement.png" tabindex="0">
       <script>
-        let keyPressedDown = false;
-        function checkFocus() { // Check the focus of the element on every animation frame (rercursively)
+        let keyPressedDown = false; // initializes boolean to check if a key is pressed down
+        function checkFocus() { // run the function on every animation frame (rercursively)
 			    requestAnimationFrame(checkFocus);
-			    if (document.activeElement === document.getElementById("wasdInputImage")) {
-            
-            document.getElementById("wasdInputImage").addEventListener("keydown", function(event) {
+			    if (document.activeElement === document.getElementById("wasdInputImage")) { // if the element is focused
+            document.getElementById("wasdInputImage").addEventListener("keydown", function(event) { // run event listeners for keydown and keyup
               if (!keyPressedDown) {
-                keyPressedDown = true;
+                keyPressedDown = true; // set boolean to true to prevent multiple keydown events
                 console.log(event.key + " pressed");
                 if (event.key === "w") {
                   fetch("forwardIndef");
@@ -39,17 +47,16 @@
                 }
               }
             });
-
             document.getElementById("wasdInputImage").addEventListener("keyup", function(event) {
               if (keyPressedDown) {
-                keyPressedDown = false;
+                keyPressedDown = false; // set boolean to false to allow for keydown events again
                 console.log(event.key + " released");
                 fetch("stop")
               }
             });
           }
 		    }
-        checkFocus(); // Start checking the focus of the element
+        checkFocus(); // start the function on page load to being checking for focus every animation frame
       </script>
     </div>
 
@@ -73,6 +80,8 @@
       <button onclick="left()">Left</button>
       <script>
         function left() {
+          arrowAngle = arrowAngle + 90; // adds 90 degrees to the arrowAngle variable to update the arrow rotation
+          document.getElementById("arrowCompass").style.transform = 'rotate(' + arrowAngle + 'deg)'; // rotates the arrow image
           fetch("left")
         }
       </script>
@@ -80,6 +89,8 @@
       <button onclick="right()">Right</button>
       <script>
         function right() {
+          arrowAngle = arrowAngle - 90; // subtracts 90 degrees from the arrowAngle variable to update the arrow rotation
+          document.getElementById("arrowCompass").style.transform = 'rotate(' + arrowAngle + 'deg)'; // rotates the arrow image
           fetch("right")
         }
       </script>
@@ -125,13 +136,13 @@
       <div id="log"></div>
       <script>
           var logDiv = document.getElementById('log'); // refers to the div element that was created above the script tag
-          var logEventSource = new EventSource('/log'); // refers to the route that we created in the server
+          var logEventSource = new EventSource('/log'); // refers to the route that we created in the server for server sent events (sses)
           logEventSource.onmessage = function(event) { // listens to the message event using the onmessage attribute of the EventSource object
               var data = event.data.trim(); // trims the data to remove any whitespace
               if (data !== '') { // checks if the data is not empty
-                logDiv.innerHTML += data + '<br>';
-                var lineList = logDiv.innerHTML.split('<br>'); 
-                logDiv.innerHTML = lineList.slice(-24).join('<br>');
+                logDiv.innerHTML += data + '<br>'; // adds the new data to the div element with a line break (br because the text is being displayed in an html element)
+                var lineList = logDiv.innerHTML.split('<br>'); // splits the data in the html element into a list of lines
+                logDiv.innerHTML = lineList.slice(-24).join('<br>'); // slices the list to only have the last 23 lines and then joins them back together with line breaks
               }
           };
       </script>

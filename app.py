@@ -133,7 +133,7 @@ def dashboard():
 
 #below endpoints have to do with auth
 @app.route('/')
-def home():
+def home(): #home page, if user is logged in, redirect to dashboard, if not, display home page
     if current_user.is_authenticated:
         logToFile(str(current_user.username) + " (" + str(request.environ['REMOTE_ADDR']) + ") - " + time.strftime("%m/%d/%Y") + "@" + time.strftime("%H:%M:%S", time.localtime()) + " | Redirected to Dashboard from Home Page\n")
         return redirect(url_for('dashboard'))
@@ -141,7 +141,7 @@ def home():
     return render_template('home.html')
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def login(): #login page, if user is logged in, redirect to dashboard, if not, display login page with login form
     if current_user.is_authenticated:
         logToFile(str(current_user.username) + " (" + str(request.environ['REMOTE_ADDR']) + ") - " + time.strftime("%m/%d/%Y") + "@" + time.strftime("%H:%M:%S", time.localtime()) + " | Redirected to Dashboard from Login Page\n")
         return redirect(url_for('dashboard'))
@@ -157,13 +157,12 @@ def login():
     return render_template('login.html', form=form) #renders login page with login form
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+def register(): #register page, if user is logged in, redirect to dashboard, if not, display register page with register form
     if current_user.is_authenticated:
         logToFile(str(current_user.username) + " (" + str(request.environ['REMOTE_ADDR']) + ") - " + time.strftime("%m/%d/%Y") + "@" + time.strftime("%H:%M:%S", time.localtime()) + " | Redirected to Dashboard from Register Page\n")
         return redirect(url_for('dashboard'))
     logToFile("Anonymous User (" + str(request.environ['REMOTE_ADDR']) + ") - " + time.strftime("%m/%d/%Y") + "@" + time.strftime("%H:%M:%S", time.localtime()) + " | Register Page\n")
     form = RegisterForm() #register form instance
-
     if form.validate_on_submit(): #if form is valid and submitted
         hashed_password = bcrypt.generate_password_hash(form.password.data) #hashes password that is passed in the form
         new_user = User(username=form.username.data, password=hashed_password) #creates new user object with username and hashed password that can be passed into the database with all the columns
@@ -171,7 +170,6 @@ def register():
         db.session.commit() #commits changes to database
         logToFile("Anonymous User (" + str(request.environ['REMOTE_ADDR']) + ") - " + time.strftime("%m/%d/%Y") + "@" + time.strftime("%H:%M:%S", time.localtime()) + " | Account \"" + form.username.data + "\" Registered\n")
         return redirect(url_for('login')) #redirects to login page after registering
-
     return render_template('register.html', form=form) #renders register page with register form
 
 @app.route('/logout', methods=['GET', 'POST'])
