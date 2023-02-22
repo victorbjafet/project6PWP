@@ -80,7 +80,7 @@
       <button onclick="left()">Left</button>
       <script>
         function left() {
-          arrowAngle = arrowAngle + 90; // adds 90 degrees to the arrowAngle variable to update the arrow rotation
+          arrowAngle = arrowAngle - 90; // subtracts 90 degrees from the arrowAngle variable to update the arrow rotation
           document.getElementById("arrowCompass").style.transform = 'rotate(' + arrowAngle + 'deg)'; // rotates the arrow image
           fetch("left")
         }
@@ -89,7 +89,7 @@
       <button onclick="right()">Right</button>
       <script>
         function right() {
-          arrowAngle = arrowAngle - 90; // subtracts 90 degrees from the arrowAngle variable to update the arrow rotation
+          arrowAngle = arrowAngle + 90; // adds 90 degrees to the arrowAngle variable to update the arrow rotation
           document.getElementById("arrowCompass").style.transform = 'rotate(' + arrowAngle + 'deg)'; // rotates the arrow image
           fetch("right")
         }
