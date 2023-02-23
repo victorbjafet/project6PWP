@@ -7,14 +7,11 @@
     <link rel="stylesheet" href="/static/dashboard.css" />
   </head>
   <div class="body">
-    <script>
-      var arrowAngle = 0; //initializes the angle of the arrow to 0 in a global variable to be used in the js rotate functions
-    </script>
 
-
+    
     <!-- this div is for the video feed and arrow compass -->
     <div class="topL">
-      <img id="arrowCompass" src="/static/images/arrowCompass.png" style="transition: transform 0.25s ease; transform-origin: 45px 45px; position: absolute; max-width: 50px; max-height: 50px; padding-left: 20px; padding-top: 20px;"> <!-- transition gives the smooth effect, rotation origin is center of image, so margins (20px) + half the size of the resized image (resized 50px, half 25px), position absolute to not push away the div, padding and max size to pad and shrink the image for positioning purposes --> 
+      <img id="arrowCompass" src="/static/images/arrowCompass.png" style="transform-origin: 45px 45px; position: absolute; max-width: 50px; max-height: 50px; padding-left: 20px; padding-top: 20px;"> <!-- transition gives the smooth effect, rotation origin is center of image, so margins (20px) + half the size of the resized image (resized 50px, half 25px), position absolute to not push away the div, padding and max size to pad and shrink the image for positioning purposes --> 
       <div style="display: flex; align-items: center; justify-content: center; top: 0; left: 0; height: 100%; width: 100%;"> <!-- flexbox to center the video feed, but the arrow is outside so that it can remain where it is with absolute positioning, also takes up entirety of parent div to not mess with flex positioning-->
         <img src="{{ url_for('video_feed') }}" style="max-width: 95%; max-height: 95%;"> <!-- video feed, max stuff set to ensure no overflow and also give some nice margins (using flex) -->
       </div>
@@ -66,6 +63,7 @@
       <button onclick="forward()">Forward</button>
       <script>
         function forward() {
+          document.getElementById("arrowCompass").style.transform = 'rotate(0deg)';
           fetch("forward")
         }
       </script>
@@ -73,6 +71,7 @@
       <button onclick="backward()">Backward</button>
       <script>
         function backward() {
+          document.getElementById("arrowCompass").style.transform = 'rotate(180deg)';
           fetch("backward")
         }
       </script>
@@ -80,8 +79,7 @@
       <button onclick="left()">Left</button>
       <script>
         function left() {
-          arrowAngle = arrowAngle - 90; // subtracts 90 degrees from the arrowAngle variable to update the arrow rotation
-          document.getElementById("arrowCompass").style.transform = 'rotate(' + arrowAngle + 'deg)'; // rotates the arrow image
+          document.getElementById("arrowCompass").style.transform = 'rotate(-90deg)';
           fetch("left")
         }
       </script>
@@ -89,8 +87,7 @@
       <button onclick="right()">Right</button>
       <script>
         function right() {
-          arrowAngle = arrowAngle + 90; // adds 90 degrees to the arrowAngle variable to update the arrow rotation
-          document.getElementById("arrowCompass").style.transform = 'rotate(' + arrowAngle + 'deg)'; // rotates the arrow image
+          document.getElementById("arrowCompass").style.transform = 'rotate(90deg)';
           fetch("right")
         }
       </script>
