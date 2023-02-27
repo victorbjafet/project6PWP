@@ -55,7 +55,7 @@ login_manager.login_view = 'login' #sets login route
 
 
 #ROUTES AND CLASSES
-@login_manager.user_loader #reload user object from user id stored in session (idk exactly what this does but this what the guy in the tutorial said it does)
+@login_manager.user_loader #reload user object from user id stored in session (idk exactly what this does but this what the guy in the tutorial said it does), i think its basically just managing sessions
 def load_user(user_id):
     return User.query.get(int(user_id))
 

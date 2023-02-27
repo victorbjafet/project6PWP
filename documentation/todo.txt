@@ -6,7 +6,6 @@ improve the authorization explanation markdown
 testing:
 
 misc:
-programming plan (why)
-do all test cases and flowchart and description and maybe use copilot to help make things easier
+i actually have no idea how the log starts with older contents already showing when you first open the page, find out why that happens
 
 
