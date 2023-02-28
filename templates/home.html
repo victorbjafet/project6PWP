@@ -9,10 +9,12 @@
 </head>
 
 <body>
-    <h1>Robot Dashboard Program</h1>
-    <!-- home landing page to send the user to whichever authorization related link they want -->
-    <a href="{{ url_for('login') }}">Login Page</a><br>
-    <a href="{{ url_for('register') }}">Register Page</a><br>
+    <div style="height: 100%; width: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; position: absolute;">
+        <h1>Robot Dashboard Program</h1>
+        <!-- home landing page to send the user to whichever authorization related link they want -->
+        <a href="{{ url_for('login') }}">Login Page</a><br>
+        <a href="{{ url_for('register') }}">Register Page</a><br>
+    </div>
 </body>
 
 </html>
